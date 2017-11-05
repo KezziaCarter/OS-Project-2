@@ -30,7 +30,6 @@ void pid_info(pid_t pid)
   printk(KERN_INFO "GID: %i\n", (t_s_pointer->cred)->gid.val);
   printk(KERN_INFO "Parent process: %i\n", t_s_pointer->parent->comm);
   printk(KERN_INFO "Parent PID: %i\n", (t_s_pointer->cred)->uid.val);
-  printk(KERN_INFO "all of the children processes pid and name\n");
 
   current = t_s_pointer;
   list = current->children
@@ -38,10 +37,9 @@ void pid_info(pid_t pid)
   printk(KERN_INFO "CHILDREN:\n");
   printk(KERN_INFO "Child process: %i\n", ch_t->comm);
   printk(KERN_INFO "Child PID: %i\n", curr->pid);
-  pid_vminfo();
 
-  printk(KERN_INFO "any flags that are set, translated to readable names\n");
-	return 0;
+  printk(KERN_INFO "FLAGS:%i\n", t_s_pointer->flags);
+  pid_vminfo();
 }
 
 
@@ -50,12 +48,22 @@ static int pid_info_begin(void)
   pid_t pid;
   pid = task_pid_nr(current);
   pid_info(pid);
+
+  printk(KERN_INFO "Hello, world\n");
+  return 0;
 }
+
 
 static void pid_info_exit(void)
 {
   printk(KERN_INFO "Goodbye, world\n");
 }
 
+
+MODULE_LICENSE("GPL");
+
 module_init(pid_info_begin);
 module_exit(pid_info_exit);
+
+MODULE_AUTHOR(DRIVER_AUTHOR);
+MODULE_DESCRIPTION(DRIVER_DESC);
