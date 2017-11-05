@@ -19,7 +19,9 @@ void pid_info(pid_t pid)
 
   printk(KERN_INFO "PID of process: %i\n", t_s_pointer->pid);
   printk(KERN_INFO "UID: %i\n", (t_s_pointer->cred)->uid.val);
-  printk(KERN_INFO "GID: %i\n", (point->cred)->gid.val);
+  printk(KERN_INFO "GID: %i\n", (t_s_pointer->cred)->gid.val);
+  printk(KERN_INFO "Parent process: %i\n", t_s_pointer->parent->comm);
+  printk(KERN_INFO "Parent PID: %i\n", (t_s_pointer->cred)->uid.val);
   printk(KERN_INFO "all of the children processes pid and name\n");
   printk(KERN_INFO "any flags that are set, translated to readable names\n");
 	return 0;
