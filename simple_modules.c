@@ -37,19 +37,45 @@ void pid_info(pid_t pid)
   printk(KERN_INFO "Child PID: %i\n", child->pid);
 
   printk(KERN_INFO "FLAGS:%i\n", t_s_pointer->flags);
-  pid_vminfo();
+  pid_vminfo()
+}
+
+
+void pid_vminfo(void)
+{
+  printk(KERN_INFO "pid_vminfo()\n");
+  int var = 0;
+  struct vm_area_struct *virtual;
+  struct proc_dir_entry *proc;
+
+  proc = proc_create("Part1_proc", 0644, NULL, &proc_file_fops);
+  printk(KERN_INFO "Number of Virtual Memory Addresses is  %i/n", current->mm->map_count );
+  printk(KERN_INFO "Task struct maps: \n");
+  for(virtual = current->mm->mmap; virtual; virtual = virtual->vm_next)
+  {
+    var = var + 1;
+    printk("\n Virtual Mem address %d:", var );
+    printk(KERN_INFO "Starts at address 0x%lx\n", virtual->vm_start);
+    printk(KERN_INFO "Ends at at address 0x%lx\n", virtual->vm_end);
+    printk(KERN_INFO "Has an offset of: %lu\n", virtual->vm_pgoff );
+    printk(KERN_INFO "Has the following flags: %lu\n", virtual->vm_flags );
+  }
+
 }
 
 
 static int pid_info_begin(void)
 {
   pid_t pid;
-  pid = task_pid_nr(current); /* Get PID of current tasl */
+  pid = task_pid_nr(current); /* Get PID of current task */
   pid_info(pid); /* Pass that PID into pid_info */
 
   printk(KERN_INFO "Hello, world\n");
   return 0; /* Return 0 so we know it worked. */
 }
+
+
+
 
 
 static void pid_info_exit(void)
