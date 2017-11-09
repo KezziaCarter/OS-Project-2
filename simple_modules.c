@@ -48,7 +48,7 @@ void pid_vminfo(void)
   struct vm_area_struct *virtual;
   struct proc_dir_entry *proc;
 
-  proc = proc_create("Part1_proc", 0644, NULL, &proc_file_fops);
+  proc = proc_create("simple_modules_proc", 0644, NULL, &proc_file_fops);
   printk(KERN_INFO "Number of Virtual Memory Addresses is  %i/n", current->mm->map_count );
   printk(KERN_INFO "Task struct maps: \n");
   for(virtual = current->mm->mmap; virtual; virtual = virtual->vm_next)
