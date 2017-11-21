@@ -23,21 +23,21 @@ void pid_info(pid_t pid)
   t_s_pointer = pid_task(find_vpid(pid), PIDTYPE_PID); /* finds the right task by process pid */
 
   /* Printing values from the task struct */
-  printk(KERN_INFO "PID of process: %i\n", t_s_pointer->pid);
-  printk(KERN_INFO "UID: %i\n", (t_s_pointer->cred)->uid.val);
-  printk(KERN_INFO "GID: %i\n", (t_s_pointer->cred)->gid.val);
-  printk(KERN_INFO "Parent process: %i\n", t_s_pointer->parent->comm);
-  printk(KERN_INFO "Parent PID: %i\n", (t_s_pointer->parent)->pid);
+  printk(KERN_INFO "PID of process: %c\n", t_s_pointer->pid);
+  printk(KERN_INFO "UID: %c\n", (t_s_pointer->cred)->uid.val);
+  printk(KERN_INFO "GID: %c\n", (t_s_pointer->cred)->gid.val);
+  printk(KERN_INFO "Parent process: %c\n", t_s_pointer->parent->comm);
+  printk(KERN_INFO "Parent PID: %c\n", (t_s_pointer->parent)->pid);
 
   /* Get list of children of our task */
-  list = t_s_pointer->children
+  list = t_s_pointer->children;
   child = list_entry(&list, struct task_struct, children);
   printk(KERN_INFO "CHILDREN:\n");
-  printk(KERN_INFO "Child process: %i\n", child->comm);
-  printk(KERN_INFO "Child PID: %i\n", child->pid);
+  printk(KERN_INFO "Child process: %c\n", child->comm);
+  printk(KERN_INFO "Child PID: %c\n", child->pid);
 
-  printk(KERN_INFO "FLAGS:%i\n", t_s_pointer->flags);
-  pid_vminfo()
+  printk(KERN_INFO "FLAGS:%c\n", t_s_pointer->flags);
+  pid_vminfo();
 }
 
 
@@ -73,9 +73,6 @@ static int pid_info_begin(void)
   printk(KERN_INFO "Hello, world\n");
   return 0; /* Return 0 so we know it worked. */
 }
-
-
-
 
 
 static void pid_info_exit(void)
