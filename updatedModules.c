@@ -16,18 +16,30 @@
 #define DRIVER_DESC "This module prints the pid, uid, gid, the parent process' pid and name, all children processes' pid and name and flag value set for a given process"
 
 
+static int proc_show(struct seq_file *m, void *v) {
+  seq_printf(m, "Hello proc!\n");
+  return 0;
+}
+
+static int proc_open(struct inode *inode, struct  file *file) {
+  return single_open(file, proc_show, NULL);
+}
+
 void pid_vminfo(void)
 {
-  printk(KERN_INFO "pid_vminfo()\n");
   int var = 0;
+ 
   struct vm_area_struct *virtual;
   struct proc_dir_entry *proc;
+  //printk(KERN_INFO "pid_vminfo()\n");
 
   static const struct file_operations proc_file_fops = {
-   .owner = pid_vminfo,
-   .open  = open_callback,
-   .read  = read_callback,
+   .owner = THIS_MODULE,
+   .open  = proc_open,
+   .read  = seq_read,
   };
+
+
 
   proc = proc_create("simple_modules_proc", 0644, NULL, &proc_file_fops);
   printk(KERN_INFO "Number of Virtual Memory Addresses is  %i/n", current->mm->map_count );
@@ -43,6 +55,8 @@ void pid_vminfo(void)
   }
 
 }
+
+
 
 void pid_info(pid_t pid)
 {
